@@ -17,11 +17,10 @@ const Page: React.FC = () => {
             {/* Hero Section */}
             <div className="space-y-6">
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground tracking-tight">
-                Make meetings intereactive and fun
+                Make meetings fun & engaging
               </h1>
               <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-                Deploy a soundboard bot that joins a call in-chat and plays
-                sounds,
+                Deploy a soundboard bot that lets you play sounds in a call,
                 <span className="hidden sm:inline">
                   <br />
                 </span>
