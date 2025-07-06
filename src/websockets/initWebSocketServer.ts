@@ -2,7 +2,7 @@ import { WebSocketServer, WebSocket, RawData } from 'ws';
 import { Server } from 'http';
 import { fetchFirstSoundUrl } from '@/utils/fetchFirstSoundUrl';
 import { URL } from 'url';
-import { RecallChatMessageSchema } from '@/websockets/RecallChatMessageSchema';
+import { ChatMessageEventSchema } from '@/recall/ChatMessageEventSchema';
 import { WebSocketClients } from '@/websockets/WebSocketClients';
 
 const showFullWsMessages = process.env.SEE_FULL_WS_MESSAGES?.toLowerCase() === 'true';
@@ -104,7 +104,7 @@ function handleBotConnection(ws: WebSocket, clientId: string) {
             // Get the parsed websocket message
             const rawMessage = JSON.parse(message.toString());
             const parsedMessage =
-                RecallChatMessageSchema.safeParse(rawMessage);
+                ChatMessageEventSchema.safeParse(rawMessage);
             if (!parsedMessage.success) {
                 logWsMsg({ clientId, source: 'bot-ws', message: `Received invalid message from bot. action: ${rawMessage?.data?.action}` });
                 if (showFullWsMessages) {

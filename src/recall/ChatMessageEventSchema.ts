@@ -4,7 +4,7 @@ import { z } from 'zod';
  * Chat message event schema from the Recall.ai API.
  * This is the event that is sent when a chat message is sent in the meeting chat.
  */
-export const RecallChatMessageSchema = z.object({
+export const ChatMessageEventSchema = z.object({
     event: z.literal('participant_events.chat_message'),
     data: z.object({
         data: z.object({
