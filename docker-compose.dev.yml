@@ -1,0 +1,33 @@
+services:
+  soundboard-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "4000:4000"
+    environment:
+      - NODE_ENV=development
+      - PORT=4000
+      - APP_HOST=${APP_HOST:-http://localhost:4000}
+      - RECALLAI_API_KEY=${RECALLAI_API_KEY}
+      - RECALLAI_BASE_URL=${RECALLAI_BASE_URL}
+      - SEE_FULL_WS_MESSAGES=${SEE_FULL_WS_MESSAGES:-true}
+    env_file:
+      - .env
+    # Configure DNS servers for better external connectivity
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+      - 1.1.1.1
+    volumes:
+      # Mount source code for hot reloading
+      - .:/app
+      - /app/node_modules
+      - ./logs:/app/logs
+    command: npm run dev
+    networks:
+      - soundboard-dev-network
+
+networks:
+  soundboard-dev-network:
+    driver: bridge

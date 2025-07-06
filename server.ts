@@ -4,9 +4,8 @@ import { parse } from 'url';
 import next from 'next';
 
 const dev = process.env.NODE_ENV !== 'production';
-const hostname = 'localhost';
+const hostname = '0.0.0.0';
 const port = parseInt(process.env.PORT || '4000', 10);
-const appHost = process.env.APP_HOST || `http://${hostname}:${port}`;
 
 const app = next({ dev, hostname, port });
 const handle = app.getRequestHandler();
@@ -36,9 +35,10 @@ app.prepare().then(async () => {
         });
     });
 
-    server.listen(port, (err?: Error) => {
+    server.listen(port, hostname, (err?: Error) => {
         if (err) throw err;
 
+        const appHost = process.env.APP_HOST || `http://localhost:${port}`;
 
         const colors = {
             reset: '\x1b[0m',

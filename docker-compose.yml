@@ -1,0 +1,37 @@
+services:
+  soundboard:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "4000:4000"
+    environment:
+      - NODE_ENV=production
+      - PORT=4000
+      - APP_HOST=${APP_HOST:-http://localhost:4000}
+      - RECALLAI_API_KEY=${RECALLAI_API_KEY}
+      - RECALLAI_BASE_URL=${RECALLAI_BASE_URL}
+      - SEE_FULL_WS_MESSAGES=${SEE_FULL_WS_MESSAGES:-false}
+    env_file:
+      - .env
+    restart: unless-stopped
+    # Configure DNS servers for better external connectivity
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+      - 1.1.1.1
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4000/api/heartbeat"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    volumes:
+      # Mount logs directory for debugging (optional)
+      - ./logs:/app/logs
+    networks:
+      - soundboard-network
+
+networks:
+  soundboard-network:
+    driver: bridge
