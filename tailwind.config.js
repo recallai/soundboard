@@ -6,8 +6,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        'geist': ['Geist', 'system-ui', 'sans-serif'],
-        'geist-mono': ['Geist Mono', 'ui-monospace', 'monospace'],
+        'sans': ['var(--font-inter)', 'system-ui', 'sans-serif'],
+        'mono': ['ui-monospace', 'monospace'],
       },
       colors: {
         background: 'var(--background)',

@@ -48,14 +48,23 @@ dev_build() {
 dev_up() {
     print_message "Starting development environment..."
     check_env_file
-    docker-compose -f docker-compose.dev.yml up -d
+    docker-compose -f docker-compose.dev.yml up
     print_message "Development environment started!"
-    print_message "Access the application at: http://localhost:4000"
+    print_message "Access the application at: http://localhost:${PORT:-4000}"
 }
 
 dev_down() {
     print_message "Stopping development environment..."
     docker-compose -f docker-compose.dev.yml down
+}
+
+dev_up_detached() {
+    print_message "Starting development environment in detached mode..."
+    check_env_file
+    docker-compose -f docker-compose.dev.yml up -d
+    print_message "Development environment started in background!"
+    print_message "Access the application at: http://localhost:${PORT:-4000}"
+    print_message "Use 'dev:logs' to view logs"
 }
 
 dev_logs() {
@@ -72,14 +81,23 @@ prod_build() {
 prod_up() {
     print_message "Starting production environment..."
     check_env_file
-    docker-compose up -d
+    docker-compose up
     print_message "Production environment started!"
-    print_message "Access the application at: http://localhost:4000"
+    print_message "Access the application at: http://localhost:${PORT:-4000}"
 }
 
 prod_down() {
     print_message "Stopping production environment..."
     docker-compose down
+}
+
+prod_up_detached() {
+    print_message "Starting production environment in detached mode..."
+    check_env_file
+    docker-compose up -d
+    print_message "Production environment started in background!"
+    print_message "Access the application at: http://localhost:${PORT:-4000}"
+    print_message "Use 'prod:logs' to view logs"
 }
 
 prod_logs() {
@@ -90,7 +108,7 @@ prod_logs() {
 # Utility commands
 health_check() {
     print_message "Checking application heartbeat..."
-    curl -f http://localhost:4000/api/heartbeat || print_error "Heartbeat check failed"
+    curl -f http://localhost:${PORT:-4000}/api/heartbeat || print_error "Heartbeat check failed"
 }
 
 network_test() {
@@ -133,16 +151,18 @@ show_help() {
     echo "Usage: $0 [COMMAND]"
     echo ""
     echo "Development Commands:"
-    echo "  dev:build     Build development Docker image"
-    echo "  dev:up        Start development environment"
-    echo "  dev:down      Stop development environment"
-    echo "  dev:logs      Show development logs"
+    echo "  dev:build       Build development Docker image"
+    echo "  dev:up          Start development environment (with logs)"
+    echo "  dev:up:detached Start development environment in background"
+    echo "  dev:down        Stop development environment"
+    echo "  dev:logs        Show development logs"
     echo ""
     echo "Production Commands:"
-    echo "  prod:build    Build production Docker image"
-    echo "  prod:up       Start production environment"
-    echo "  prod:down     Stop production environment"
-    echo "  prod:logs     Show production logs"
+    echo "  prod:build       Build production Docker image"
+    echo "  prod:up          Start production environment (with logs)"
+    echo "  prod:up:detached Start production environment in background"
+    echo "  prod:down        Stop production environment"
+    echo "  prod:logs        Show production logs"
     echo ""
     echo "Utility Commands:"
     echo "  health        Check application heartbeat"
@@ -163,6 +183,9 @@ case "$1" in
     "dev:up")
         dev_up
         ;;
+    "dev:up:detached")
+        dev_up_detached
+        ;;
     "dev:down")
         dev_down
         ;;
@@ -174,6 +197,9 @@ case "$1" in
         ;;
     "prod:up")
         prod_up
+        ;;
+    "prod:up:detached")
+        prod_up_detached
         ;;
     "prod:down")
         prod_down

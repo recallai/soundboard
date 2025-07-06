@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import RecallLogo from "@/app/(client)/_assets/recall-logo.svg";
 
 export function Navbar() {
@@ -13,7 +14,13 @@ export function Navbar() {
             rel="noreferrer"
             className="flex items-center hover:opacity-80 transition-opacity"
           >
-            <img src={RecallLogo} alt="Recall" className="h-5 w-auto" />
+            <Image
+              src={RecallLogo}
+              alt="Recall"
+              width={20}
+              height={20}
+              className="h-5 w-auto"
+            />
           </a>
           <div className="flex items-center gap-8">
             <a

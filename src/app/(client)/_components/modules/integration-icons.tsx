@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import GoogleMeetIcon from "@/app/(client)/_assets/google_meet.svg";
 import MicrosoftTeamsIcon from "@/app/(client)/_assets/microsoft_teams.svg";
 import ZoomIcon from "@/app/(client)/_assets/zoom.svg";
@@ -58,10 +59,12 @@ export function IntegrationIcons() {
           className="group flex h-20 w-20 items-center justify-center rounded-2xl bg-white shadow-sm transition-all duration-200 hover:shadow-md hover:scale-105"
           title={integration.name}
         >
-          <img
+          <Image
             src={integration.icon}
             alt={integration.name}
-            className="h-8 w-8 transition-transform duration-200 group-hover:scale-110"
+            width={32}
+            height={32}
+            className="h-8 w-auto transition-transform duration-200 group-hover:scale-110"
           />
         </a>
       ))}
