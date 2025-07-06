@@ -2,6 +2,7 @@
 
 import { usePlaySoundboard } from "@/app/(client)/_hooks/use-play-soundboard";
 import { Card, CardContent } from "@/app/(client)/_components/ui/card";
+import { PoweredByRecall } from "@/app/(client)/_components/modules/powered-by-recall";
 import Image from "next/image";
 import recallLogo from "@/app/(client)/_assets/recall-logo.svg";
 
@@ -68,9 +69,7 @@ const Page: React.FC = () => {
 
             {/* Footer */}
             <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-600">
-              <p className="text-xs text-center text-gray-500 dark:text-gray-400">
-                Powered by Recall.ai
-              </p>
+              <PoweredByRecall />
             </div>
           </CardContent>
         </Card>

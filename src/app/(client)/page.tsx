@@ -1,58 +1,83 @@
 import { CreateBotForm } from "@/app/(client)/_components/forms/create-bot-form";
-import { IntegrationIcons } from "@/app/(client)/_components/modules/integration-icons";
 import { Navbar } from "@/app/(client)/_components/modules/navbar";
-import { SampleCodeBlock } from "@/app/(client)/_components/modules/recall-bot-config";
-import { ExternalLink } from "lucide-react";
+import { PoweredByRecall } from "@/app/(client)/_components/modules/powered-by-recall";
+import { Badge } from "@/app/(client)/_components/ui/badge";
+import { Button } from "@/app/(client)/_components/ui/button";
+import { Github, Star, GitFork } from "lucide-react";
 
 const Page: React.FC = () => {
   return (
-    <div className="min-h-screen bg-background flex flex-col gap-16">
+    <div className="min-h-screen bg-background flex flex-col">
       <Navbar />
-      <div className="min-h-screen max-w-4xl mx-auto flex flex-col gap-16">
-        {/* Header */}
-        <div className="flex flex-col items-center text-center">
-          <h1 className="text-5xl font-bold text-foreground mb-6">
-            Make any meeting fun with Recall.ai
-          </h1>
-          <p className="text-xl text-muted-foreground mb-12 max-w-2xl mx-auto">
-            Deploy a soundboard bot that joins a call in-chat and plays sounds,
-            <br />
-            no code required
-          </p>
-          {/* Form */}
-          <div className="max-w-2xl mx-auto w-full px-4">
-            <CreateBotForm />
-          </div>
-        </div>
 
-        {/* Integration Icons */}
-        <IntegrationIcons />
-
-        {/* Divider */}
-        <div className="w-full h-[1px] bg-muted" />
-
-        {/* Content Sections */}
-        <div className="flex flex-col gap-16">
-          {/* Quickstart Section */}
-          <div className="flex flex-col gap-4">
-            <div className="flex flex-col gap-2">
-              <p className="text-xs text-muted-foreground uppercase font-medium">
-                QUICKSTART
+      {/* Main Content - Centered */}
+      <div className="flex-1 flex items-center justify-center px-4 py-8 sm:py-12 lg:py-16">
+        <div className="w-full max-w-4xl mx-auto">
+          <div className="flex flex-col items-center text-center space-y-8">
+            {/* Hero Section */}
+            <div className="space-y-6">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground tracking-tight">
+                Make meetings intereactive and fun
+              </h1>
+              <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+                Deploy a soundboard bot that joins a call in-chat and plays
+                sounds,
+                <span className="hidden sm:inline">
+                  <br />
+                </span>
+                <span className="sm:hidden"> </span>
+                no code required
               </p>
-              <h2 className="text-3xl font-bold text-foreground">
-                Deploy your Own!
-              </h2>
             </div>
-            <a
-              href="https://github.com/recallai"
-              target="_blank"
-              rel="noreferrer"
-              className="group flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors w-fit"
-            >
-              <ExternalLink className="w-3 h-3 opacity-50 group-hover:opacity-100 transition-opacity" />
-              <span>View this repo on GitHub</span>
-            </a>
-            <SampleCodeBlock />
+
+            {/* Form */}
+            <div className="w-full max-w-2xl">
+              <CreateBotForm />
+            </div>
+
+            {/* GitHub CTA */}
+            <div className="flex flex-col items-center gap-4 pt-4">
+              <Button
+                asChild
+                size="lg"
+                variant="outline"
+                className="group bg-white hover:bg-gray-50 border-gray-200 text-gray-900 font-medium px-4 sm:px-6 py-3 h-auto shadow-sm hover:shadow-md transition-all duration-200"
+              >
+                <a
+                  href="https://github.com/recallai/soundboard"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-center gap-2 sm:gap-3"
+                >
+                  <Github className="w-4 h-4 sm:w-5 sm:h-5" />
+                  <span className="text-sm sm:text-base">View on GitHub</span>
+                  <Badge
+                    variant="secondary"
+                    className="ml-1 sm:ml-2 bg-gray-100 text-gray-700 hover:bg-gray-200 text-xs sm:text-sm"
+                  >
+                    Open Source
+                  </Badge>
+                </a>
+              </Button>
+
+              {/* GitHub Stats */}
+              <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 text-sm text-muted-foreground">
+                <div className="flex items-center gap-1">
+                  <Star className="w-4 h-4" />
+                  <span>Give it a star</span>
+                </div>
+                <div className="hidden sm:block w-1 h-1 rounded-full bg-muted-foreground/30" />
+                <div className="flex items-center gap-1">
+                  <GitFork className="w-4 h-4" />
+                  <span>Fork & customize</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Powered by Recall.ai */}
+            <div className="mt-12 pt-8 border-t border-muted">
+              <PoweredByRecall />
+            </div>
           </div>
         </div>
       </div>
