@@ -1,7 +1,7 @@
 
 import { z } from 'zod';
-import { getAppUrl } from '@/server/utils/getAppUrl';
-import { getRecallBaseUrl } from '@/server/utils/getRecallBaseUrl';
+import { getAppUrl } from '@/utils/getAppUrl';
+import { getRecallBaseUrl } from '@/recall/getRecallBaseUrl';
 import { randomUUID } from 'crypto';
 
 const CreateRecallBotInputSchema = z.object({

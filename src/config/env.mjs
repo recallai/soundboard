@@ -19,8 +19,6 @@ export const env = createEnv({
     RECALLAI_BASE_URL: z.string().url(),
     APP_HOST: z.string().url(),
     SEE_FULL_WS_MESSAGES: z.boolean().default(false),
-    // DATABASE_URL: z.string(),
-    // REDIS_URL: z.string(),
   },
 
   /**

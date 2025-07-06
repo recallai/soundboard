@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server";
-import { createRecallBot } from "@/server/utils/createRecallBot";
+import { createRecallBot } from "@/recall/createRecallBot";
 import { z } from "zod";
 import { env } from "@/config/env.mjs";
 

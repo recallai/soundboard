@@ -1,9 +1,9 @@
 import { WebSocketServer, WebSocket, RawData } from 'ws';
 import { Server } from 'http';
-import { fetchFirstSoundUrl } from '@/server/utils/fetchFirstSoundUrl';
+import { fetchFirstSoundUrl } from '@/utils/fetchFirstSoundUrl';
 import { URL } from 'url';
-import { RecallChatMessageSchema } from '@/server/utils/RecallChatMessageSchema';
-import { WebSocketClients } from '@/server/utils/WebSocketClients';
+import { RecallChatMessageSchema } from '@/websockets/RecallChatMessageSchema';
+import { WebSocketClients } from '@/websockets/WebSocketClients';
 
 const showFullWsMessages = process.env.SEE_FULL_WS_MESSAGES?.toLowerCase() === 'true';
 

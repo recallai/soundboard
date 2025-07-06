@@ -23,7 +23,7 @@ app.prepare().then(async () => {
     });
 
     // Import and initialize the WebSocket server
-    const { initWebSocketServer } = await import('./src/server/initWebSocketServer');
+    const { initWebSocketServer } = await import('./websockets/initWebSocketServer');
     initWebSocketServer(server);
 
     // Graceful shutdown
