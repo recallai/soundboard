@@ -1,78 +1,114 @@
 "use client";
 
 import { usePlaySoundboard } from "@/app/(client)/_hooks/use-play-soundboard";
-import { Card, CardContent } from "@/app/(client)/_components/ui/card";
 import { PoweredByRecall } from "@/app/(client)/_components/modules/powered-by-recall";
-import Image from "next/image";
-import recallLogo from "@/app/(client)/_assets/recall-logo.svg";
+import { SoundCommands } from "@/utils/SoundCommands";
 
 const Page: React.FC = () => {
-  const { isConnected } = usePlaySoundboard();
+  const { isConnected, isReconnecting } = usePlaySoundboard();
+
+  const soundCommands = Object.keys(SoundCommands);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-4">
       <div className="w-full max-w-[500px]">
-        {/* Header with Logo */}
-        <div className="text-center mb-8">
-          <div className="flex items-center justify-center mb-4">
-            <Image src={recallLogo} alt="Recall Logo" width={32} height={32} />
-          </div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-            Recall.ai Soundboard
+        {/* Header */}
+        <div className="mb-8">
+          <h1 className="text-3xl text-center font-bold text-gray-900 dark:text-white mb-4">
+            Soundboard
           </h1>
-          <p className="text-gray-600 dark:text-gray-300">
-            Send a message in-chat like !hello to play a sound!
-          </p>
-        </div>
-
-        {/* Main Status Card */}
-        <Card className="backdrop-blur-sm bg-white/80 dark:bg-gray-800/80 border-0 shadow-xl">
-          <CardContent className="p-8">
-            {/* Connection Status */}
-            <div className="text-center mb-6">
-              <div className="flex items-center justify-center mb-4">
-                <div
-                  className={`w-4 h-4 rounded-full mr-3 ${
-                    isConnected ? "bg-green-500 animate-pulse" : "bg-red-500"
-                  }`}
-                ></div>
-                <span
-                  className={`text-lg font-semibold ${
-                    isConnected
-                      ? "text-green-700 dark:text-green-400"
-                      : "text-red-700 dark:text-red-400"
-                  }`}
-                >
-                  {isConnected ? "Connected" : "Disconnected"}
-                </span>
-              </div>
-
-              {isConnected && (
-                <div className="inline-flex items-center px-4 py-2 bg-green-100 dark:bg-green-900/30 rounded-full">
-                  <svg
-                    className="w-4 h-4 text-green-600 dark:text-green-400 mr-2"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                  <span className="text-sm font-medium text-green-700 dark:text-green-300">
-                    Ready for audio
+          <div className="space-y-3">
+            <p className="text-gray-600 dark:text-gray-300 text-center">
+              Send commands in chat to control the bot and play sounds
+            </p>
+            <div className="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-lg p-4 border border-gray-200/50 dark:border-gray-600/50">
+              {/* Control Commands */}
+              <div className="grid grid-cols-2 gap-2 text-sm mb-4">
+                <div className="flex items-center gap-2">
+                  <code className="bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded text-xs font-mono">
+                    !list
+                  </code>
+                  <span className="text-gray-600 dark:text-gray-400">
+                    Show list of sounds
                   </span>
                 </div>
-              )}
-            </div>
+                <div className="flex items-center gap-2">
+                  <code className="bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded text-xs font-mono">
+                    !kick
+                  </code>
+                  <span className="text-gray-600 dark:text-gray-400">
+                    Bot leaves call
+                  </span>
+                </div>
+              </div>
 
-            {/* Footer */}
-            <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-600">
-              <PoweredByRecall />
+              {/* Divider */}
+              <div className="border-t border-gray-200/60 dark:border-gray-600/60 my-4"></div>
+
+              {/* Sound Commands */}
+              <div className="text-center">
+                <p className="text-xs text-gray-600 dark:text-gray-400 mb-3">
+                  Available sounds:
+                </p>
+                <div className="flex flex-wrap justify-center gap-2">
+                  {soundCommands.map((command) => (
+                    <code
+                      key={command}
+                      className="bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded text-xs font-mono"
+                    >
+                      {command}
+                    </code>
+                  ))}
+                </div>
+              </div>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
+
+        {/* Status & Info */}
+        <div className="space-y-4">
+          {/* Compact Status */}
+          <div className="flex items-center justify-center gap-3 py-3 px-4 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm rounded-lg border border-white/20 dark:border-gray-700/30">
+            <div
+              className={`w-3 h-3 rounded-full ${
+                isConnected
+                  ? "bg-green-500 animate-pulse"
+                  : isReconnecting
+                  ? "bg-yellow-500 animate-pulse"
+                  : "bg-red-500"
+              }`}
+            ></div>
+            <span
+              className={`text-sm font-medium ${
+                isConnected
+                  ? "text-green-700 dark:text-green-400"
+                  : isReconnecting
+                  ? "text-yellow-700 dark:text-yellow-400"
+                  : "text-red-700 dark:text-red-400"
+              }`}
+            >
+              {isConnected
+                ? "Connected"
+                : isReconnecting
+                ? "Reconnecting..."
+                : "Disconnected"}
+            </span>
+          </div>
+
+          {/* Recording Disclaimer */}
+          <div className="text-center">
+            <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
+              🔒 This bot does not record the call.
+              <br />
+              It only joins to play sounds when requested.
+            </p>
+          </div>
+        </div>
+
+        {/* Powered by Recall */}
+        <div className="mt-6">
+          <PoweredByRecall />
+        </div>
       </div>
     </div>
   );

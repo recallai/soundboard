@@ -3,12 +3,12 @@ import { z } from 'zod';
 import { getAppUrl } from '@/utils/getAppUrl';
 import { getRecallBaseUrl } from '@/recall/getRecallBaseUrl';
 import { randomUUID } from 'crypto';
+import { env } from '@/config/env.mjs';
 
-const CreateRecallBotInputSchema = z.object({
-    recallApiKey: z.string(),
+const CreateBotInputSchema = z.object({
     meetingUrl: z.string().url(),
 });
-type CreateRecallBotInput = z.infer<typeof CreateRecallBotInputSchema>;
+type CreateBotInput = z.infer<typeof CreateBotInputSchema>;
 
 export const RecallBotResponseSchema = z.object({
     id: z.string()
@@ -19,8 +19,8 @@ export type RecallBotResponse = z.infer<typeof RecallBotResponseSchema>;
  * Creates a Recall.ai meeting bot
  * This bot is configured to listen for chat messages to the websocket url specified below
  */
-export const createRecallBot = async (args: CreateRecallBotInput): Promise<RecallBotResponse> => {
-    const { recallApiKey, meetingUrl } = CreateRecallBotInputSchema.parse(args);
+export const createBot = async (args: CreateBotInput): Promise<RecallBotResponse> => {
+    const { meetingUrl } = CreateBotInputSchema.parse(args);
 
     const clientId = randomUUID();
 
@@ -37,17 +37,12 @@ export const createRecallBot = async (args: CreateRecallBotInput): Promise<Recal
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `${recallApiKey}`
+            'Authorization': `${env.RECALLAI_API_KEY}`
         },
         body: JSON.stringify({
             meeting_url: meetingUrl,
             bot_name: "Recall.ai Soundboard Bot",
             recording_config: {
-                transription: {
-                    provider: {
-                        meeting_captions: {} // Enables meeting caption transcription
-                    }
-                },
                 realtime_endpoints: [
                     // This is the websocket endpoint that the bot will receive events from the bot
                     {
@@ -55,7 +50,11 @@ export const createRecallBot = async (args: CreateRecallBotInput): Promise<Recal
                         url: realtimeEventsUrl,
                         events: ["participant_events.chat_message"]
                     }
-                ]
+                ],
+                retention: {
+                    type: "timed",
+                    hours: 1
+                }
             },
             chat: {
                 on_bot_join: {

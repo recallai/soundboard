@@ -1,7 +1,6 @@
 import { NextRequest } from "next/server";
-import { createRecallBot } from "@/recall/createRecallBot";
+import { createBot } from "@/recall/createBot";
 import { z } from "zod";
-import { env } from "@/config/env.mjs";
 
 export const POST = async (req: NextRequest) => {
     try {
@@ -10,15 +9,7 @@ export const POST = async (req: NextRequest) => {
             .object({ meetingUrl: z.string().url() })
             .parse(body);
 
-        const recallApiKey = env.RECALLAI_API_KEY;
-        if (!recallApiKey) {
-            throw new Error('RECALLAI_API_KEY env var is not set');
-        }
-
-        const botData = await createRecallBot({
-            recallApiKey,
-            meetingUrl
-        });
+        const botData = await createBot({ meetingUrl });
 
         return Response.json({
             success: true,

@@ -4,6 +4,9 @@ import { fetchFirstSoundUrl } from '@/utils/fetchFirstSoundUrl';
 import { URL } from 'url';
 import { ChatMessageEventSchema } from '@/recall/ChatMessageEventSchema';
 import { WebSocketClients } from '@/websockets/WebSocketClients';
+import { SoundCommands } from '@/utils/SoundCommands';
+import { sendChatMessage } from '@/recall/sendChatMessage';
+import { removeBotFromCall } from '@/recall/removeBotFromCall';
 
 const showFullWsMessages = process.env.SEE_FULL_WS_MESSAGES?.toLowerCase() === 'true';
 
@@ -119,22 +122,42 @@ function handleBotConnection(ws: WebSocket, clientId: string) {
             }
 
             // Get the message sent to the meeting chat
+            const botId = parsedMessage.data.data.bot.id;
             const chatData = parsedMessage.data.data.data.data;
             if (!chatData) {
                 return;
             }
-            const command = chatData.text.trim();
+            const chatMessage = chatData.text.trim();
 
-            logWsMsg({ clientId, source: 'bot-ws', message: `${parsedMessage.data.data.data.participant.name ?? 'Unknown Participant'} sent to chat: ${command}` });
+            logWsMsg({ clientId, source: 'bot-ws', message: `${parsedMessage.data.data.data.participant.name ?? 'Unknown Participant'} sent to chat: ${chatMessage}` });
 
             // Check if the command starts with our trigger character '!'
-            if (command.startsWith('!')) {
-                const searchTerm = command.substring(1);
-                if (searchTerm) {
-                    logWsMsg({ clientId, source: 'bot-ws', message: `Client ${clientId} triggered sound with command: ${command}` });
-                    const audioUrl = await fetchFirstSoundUrl(searchTerm);
-                    logWsMsg({ clientId, source: 'bot-ws', message: `Sending audio URL to client: ${audioUrl}` });
-                    sendMsgToClient({ clientId, data: { type: 'audio', payload: { audioUrl } } });
+            switch (chatMessage) {
+                case '!list': {
+                    await sendChatMessage({
+                        botId,
+                        message: `Try using any of these commands: ${Object.keys(SoundCommands).join(', ')}`,
+                    });
+                    break;
+                }
+                case '!leave':
+                case '!kick': {
+                    await removeBotFromCall({ botId });
+                    break;
+                }
+                default: {
+                    const command = SoundCommands[chatMessage as keyof typeof SoundCommands];
+                    if (command) {
+                        logWsMsg({ clientId, source: 'bot-ws', message: `Client ${clientId} triggered sound with command: ${command}` });
+                        const audioUrl = await fetchFirstSoundUrl(command);
+                        logWsMsg({ clientId, source: 'bot-ws', message: `Sending audio URL to client: ${audioUrl}` });
+                        sendMsgToClient({ clientId, data: { type: 'audio', payload: { audioUrl } } });
+                    } else if (chatMessage.startsWith('!')) {
+                        await sendChatMessage({
+                            botId,
+                            message: `${chatMessage} is not a valid command. Try using !list to see all commands.`,
+                        });
+                    }
                 }
             }
         } catch (error) {
