@@ -3,15 +3,12 @@ import { Server } from 'http';
 import { fetchFirstSoundUrl } from '@/utils/fetchFirstSoundUrl';
 import { URL } from 'url';
 import { ChatMessageEventSchema } from '@/recall/ChatMessageEventSchema';
-import { WebSocketClients } from '@/websockets/WebSocketClients';
+import { wsConnections } from '@/config/wsConnections';
 import { SoundCommands } from '@/utils/SoundCommands';
 import { sendChatMessage } from '@/recall/sendChatMessage';
 import { removeBotFromCall } from '@/recall/removeBotFromCall';
 
 const showFullWsMessages = process.env.SEE_FULL_WS_MESSAGES?.toLowerCase() === 'true';
-
-// A map of all the websocket connections
-const wsConnections = new WebSocketClients();
 
 const logWsMsg = (args: { clientId: string, source: 'bot-ws' | 'client-ws' | 'server', message: string }) => {
     const clientIdMsg = args.clientId ? `[${args.source}: ${args.clientId}]` : '';
@@ -32,16 +29,30 @@ export function initWebSocketServer(server: Server) {
         );
         if (pathname === '/ws/bot') {
             const clientId = searchParams.get('clientId');
-            if (clientId) {
-                logWsMsg({ clientId, source: 'bot-ws', message: 'Bot connected' });
+            const token = searchParams.get('token');
 
-                // Saves the websocket connection to the map for bot ws to reference later
-                wsConnections.add('bot', clientId, ws);
-
-                handleBotConnection(ws, clientId);
-            } else {
+            if (!clientId) {
                 ws.close(1011, 'Missing clientId for bot connection.');
+                return;
             }
+
+            if (!token) {
+                ws.close(1011, 'Missing token for bot connection.');
+                return;
+            }
+
+            if (!wsConnections.validateBotToken(clientId, token)) {
+                logWsMsg({ clientId, source: 'bot-ws', message: 'Bot connection rejected - invalid JWT token' });
+                ws.close(1011, 'Invalid authentication credentials.');
+                return;
+            }
+
+            logWsMsg({ clientId, source: 'bot-ws', message: 'Bot connected and authenticated via JWT' });
+
+            // Saves the websocket connection to the map for bot ws to reference later
+            wsConnections.add('bot', clientId, ws);
+
+            handleBotConnection(ws, clientId);
         } else if (pathname === '/ws/client') {
             const clientId = searchParams.get('clientId');
             if (clientId) {

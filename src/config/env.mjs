@@ -19,6 +19,7 @@ export const env = createEnv({
     RECALLAI_BASE_URL: z.string().url(),
     APP_HOST: z.string().url(),
     SEE_FULL_WS_MESSAGES: z.boolean().default(false),
+    JWT_SECRET: z.string().min(12, "JWT secret must be at least 12 characters"),
   },
 
   /**
@@ -34,6 +35,7 @@ export const env = createEnv({
    */
   runtimeEnv: {
     PORT: DEFAULT_PORT,
+    JWT_SECRET: process.env.JWT_SECRET?.trim(),
     RECALLAI_API_KEY: process.env.RECALLAI_API_KEY?.trim(),
     RECALLAI_BASE_URL: process.env.RECALLAI_BASE_URL?.trim(),
     APP_HOST: process.env.APP_HOST?.trim(),

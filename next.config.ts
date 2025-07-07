@@ -1,4 +1,7 @@
 import type { NextConfig } from "next";
+import { env } from "./src/config/env.mjs";
+
+const appHost = env.APP_HOST ? new URL(env.APP_HOST).hostname : undefined;
 
 const nextConfig: NextConfig = {
   webpack: (config: any) => {
@@ -9,6 +12,7 @@ const nextConfig: NextConfig = {
     };
     return config;
   },
+  allowedDevOrigins: appHost ? [appHost] : [],
 };
 
 export default nextConfig;
