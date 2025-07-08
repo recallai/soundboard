@@ -95,6 +95,23 @@ This project includes a helper script `./scripts.sh` to manage the application w
 | `cleanup` | Clean up Docker resources          |
 | `help`    | Show the help message              |
 
+## Important Files
+
+A quick guide to the key files in this project.
+
+`src/server.ts` is the main entry point that starts the Next.js application and the WebSocket server.
+
+### Client
+
+- `src/app/(client)/_hooks/use-play-soundboard.ts`: React hook to manage the client's WebSocket connection and play sounds.
+
+### Server
+
+- `src/websockets/initWebSocketServer.ts`: Initializes the WebSocket server. Both the client and the bot will connect to this websocket, allowing this server to receive meeting info from the bot and communicate with the client.
+- `src/recall/createBot.ts`: Handles creating a Recall bot and sends it to a meeting. The bot is configured to send a welcome chat message upon joining a meeting and screenshares this soundboard application.
+- `src/recall/sendChatMessage.ts`: Sends a chat message to the meeting via the bot to trigger a sound.
+- `src/recall/removeBotFromCall.ts`: Removes the Recall bot from the meeting.
+
 ## Troubleshooting
 
 ### Using ngrok for Local Development
