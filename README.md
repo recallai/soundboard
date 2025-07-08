@@ -25,7 +25,7 @@ Before you begin, ensure you have the following installed:
 
 3.  **Create an .env file:**
 
-    Copy the `.env.sample` file to a new file named `.env` using hte command below:
+    Copy the `.env.sample` file to a new file named `.env` using the command below:
 
     ```bash
     cp .env.sample .env
@@ -88,12 +88,33 @@ This project includes a helper script `./scripts.sh` to manage the application w
 
 ### Utility Commands
 
-| Command   | Description                        |
-| --------- | ---------------------------------- |
-| `health`  | Check application heartbeat        |
-| `network` | Test external network connectivity |
-| `cleanup` | Clean up Docker resources          |
-| `help`    | Show the help message              |
+| Command   | Description                 |
+| --------- | --------------------------- |
+| `health`  | Check application heartbeat |
+| `cleanup` | Clean up Docker resources   |
+| `help`    | Show the help message       |
+
+## How It Works
+
+This application uses a Recall.ai bot to join meetings and play sounds. The process involves a user-facing control panel, a WebSocket server for real-time communication, and a special soundboard page that the bot screen-shares into the meeting.
+
+<!-- You can add your architecture diagram here -->
+
+Here’s the step-by-step flow:
+
+1.  **Bot Creation**: A user provides a meeting link in the client. This triggers a request to the server to create a new Recall.ai bot using `src/recall/createBot.ts`.
+
+2.  **Joining and Screen-sharing**: The bot joins the specified meeting and immediately begins screen-sharing the app's `/soundboard` page. The `clientId` in the URL (`/soundboard?clientId=<bot-id>`) identifies this session. The bot itself also connects to this app's server via websocket
+
+3.  **WebSocket Connection**: The `/soundboard` page, now active inside the meeting via screen-share, connects to the server via websocket (`src/websockets/initWebSocketServer.ts`). It identifies itself using the `clientId` from its URL, allowing the server to route commands to it.
+
+4.  **Triggering a Sound**: The user can send chat messages in the chat. The bot will forward the participant's chat messages over websocket to this app's server.
+
+5.  **Relaying the Command**: The server receives the request. It looks up the correct WebSocket connection using the `clientId` and sends a message containing the URL of the sound file to play to the client.
+
+6.  **Playing Audio**: The `/soundboard` page receives the message via its WebSocket connection and plays the audio file. Because the bot is sharing its audio, everyone in the meeting hears the sound.
+
+7.  **Stopping the Bot**: The user can remove the bot from the call by sending `!kick` in-chat, which calls `src/recall/removeBotFromCall.ts`.
 
 ## Important Files
 
