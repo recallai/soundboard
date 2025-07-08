@@ -63,7 +63,7 @@ export const createBot = async (args: CreateBotInput): Promise<RecallBotResponse
                     send_to: "everyone",
                     pin: true,
                     // This is the message that will be sent to the meeting chat when the bot joins
-                    message: "Hello! I'm a soundboard bot powered by https://www.recall.ai. Once connected, you can play sounds by typing in the chat: !<sound name> (i.e. !hello)",
+                    message: "Hello! I'm a soundboard bot powered by https://www.recall.ai. Once connected, you can play sounds by typing in the chat: !<sound name> (i.e. !hello). You can also list all sounds by typing !list and ask me to leave with !kick.",
                 }
             },
             output_media: {
