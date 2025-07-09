@@ -31,6 +31,13 @@ export const createBot = async (args: CreateBotArgs): Promise<RecallBot> => {
     const clientWebpageUrl = `${appUrl.toString()}soundboard?clientId=${clientId}`;
     const realtimeEventsUrl = `wss://${appUrl.host}/ws/bot?clientId=${clientId}&token=${jwtToken}`;
 
+    // This is the message that will be sent to the meeting chat when the bot joins
+    const onJoinChatMessage = `Hello, someone requested me to join this meeting! I'm a soundboard bot powered by https://www.recall.ai
+
+Once connected, you can play sounds by typing in the chat: !<sound name> (i.e. !hello) or see the list of sounds by typing !list
+
+If you don't want me in this meeting, you can also ask me to leave with !kick`;
+
     const response = await fetch(createBotUrl, {
         method: 'POST',
         headers: {
@@ -58,8 +65,7 @@ export const createBot = async (args: CreateBotArgs): Promise<RecallBot> => {
                 on_bot_join: {
                     send_to: "everyone",
                     pin: true,
-                    // This is the message that will be sent to the meeting chat when the bot joins
-                    message: "Hello! I'm a soundboard bot powered by https://www.recall.ai. Once connected, you can play sounds by typing in the chat: !<sound name> (i.e. !hello). You can also list all sounds by typing !list and ask me to leave with !kick.",
+                    message: onJoinChatMessage,
                 }
             },
             output_media: {
