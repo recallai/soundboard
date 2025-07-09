@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const getRecallApiError = (data: any): string => {
     if (data?.detail) {
         if (Array.isArray(data?.detail)) {
