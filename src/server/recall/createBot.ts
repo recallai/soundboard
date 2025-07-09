@@ -1,27 +1,22 @@
-
 import { z } from 'zod';
-import { getAppUrl } from '@/utils/getAppUrl';
-import { getRecallBaseUrl } from '@/recall/getRecallBaseUrl';
+import { getAppUrl } from '../utils/getAppUrl';
+import { getRecallBaseUrl } from './getRecallBaseUrl';
 import { randomUUID } from 'crypto';
-import { env } from '@/config/env.mjs';
-import { generateBotToken } from '@/utils/jwt';
+import { env } from '../../config/env';
+import { generateBotToken } from '../utils/jwt';
+import { RecallBot, RecallBotSchema } from './Bot';
 
-const CreateBotInputSchema = z.object({
+const CreateBotArgsSchema = z.object({
     meetingUrl: z.string().url(),
 });
-type CreateBotInput = z.infer<typeof CreateBotInputSchema>;
-
-export const RecallBotResponseSchema = z.object({
-    id: z.string()
-});
-export type RecallBotResponse = z.infer<typeof RecallBotResponseSchema>;
+type CreateBotArgs = z.infer<typeof CreateBotArgsSchema>;
 
 /**
  * Creates a Recall.ai meeting bot
  * This bot is configured to listen for chat messages to the websocket url specified below
  */
-export const createBot = async (args: CreateBotInput): Promise<RecallBotResponse> => {
-    const { meetingUrl } = CreateBotInputSchema.parse(args);
+export const createBot = async (args: CreateBotArgs): Promise<RecallBot> => {
+    const { meetingUrl } = CreateBotArgsSchema.parse(args);
 
     const clientId = randomUUID();
     const jwtToken = generateBotToken(clientId);
@@ -88,7 +83,7 @@ export const createBot = async (args: CreateBotInput): Promise<RecallBotResponse
 
 
     const responseData = await response.json();
-    const botData = RecallBotResponseSchema.parse(responseData);
+    const botData = RecallBotSchema.parse(responseData);
 
     console.log('Successfully created bot with ID:', botData.id);
 

@@ -2,7 +2,7 @@
 
 import { usePlaySoundboard } from "@/app/(client)/_hooks/use-play-soundboard";
 import { PoweredByRecall } from "@/app/(client)/_components/modules/powered-by-recall";
-import { SoundCommands } from "@/utils/SoundCommands";
+import { SoundCommands } from "@/server/utils/SoundCommands";
 
 const Page: React.FC = () => {
   const { isConnected, isReconnecting } = usePlaySoundboard();

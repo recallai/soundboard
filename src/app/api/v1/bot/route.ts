@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server";
-import { createBot } from "@/recall/createBot";
+import { createBot } from "@/server/recall/createBot";
 import { z } from "zod";
 
 export const POST = async (req: NextRequest) => {

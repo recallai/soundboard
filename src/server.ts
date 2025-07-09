@@ -2,6 +2,7 @@ import 'dotenv/config';
 import { createServer } from 'http';
 import { parse } from 'url';
 import next from 'next';
+import { initWebSocketServer } from './server/websockets/initWebSocketServer';
 
 const dev = process.env.NODE_ENV !== 'production';
 const hostname = '0.0.0.0';
@@ -23,7 +24,6 @@ app.prepare().then(async () => {
     });
 
     // Import and initialize the WebSocket server
-    const { initWebSocketServer } = await import('./websockets/initWebSocketServer');
     initWebSocketServer(server);
 
     // Graceful shutdown

@@ -1,12 +1,12 @@
 import { WebSocketServer, WebSocket, RawData } from 'ws';
 import { Server } from 'http';
-import { fetchFirstSoundUrl } from '@/utils/fetchFirstSoundUrl';
+import { fetchFirstSoundUrl } from '../utils/fetchFirstSoundUrl';
 import { URL } from 'url';
-import { ChatMessageEventSchema } from '@/recall/ChatMessageEventSchema';
-import { wsConnections } from '@/config/wsConnections';
-import { SoundCommands } from '@/utils/SoundCommands';
-import { sendChatMessage } from '@/recall/sendChatMessage';
-import { removeBotFromCall } from '@/recall/removeBotFromCall';
+import { ChatMessageEventSchema } from '../recall/ChatMessageEventSchema';
+import { wsConnections } from '../../config/wsConnections';
+import { SoundCommands } from '../utils/SoundCommands';
+import { sendChatMessage } from '../recall/sendChatMessage';
+import { removeBotFromCall } from '../recall/removeBotFromCall';
 
 const showFullWsMessages = process.env.SEE_FULL_WS_MESSAGES?.toLowerCase() === 'true';
 

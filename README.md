@@ -129,10 +129,10 @@ A quick guide to the key files in this project.
 
 #### Server
 
-- `src/websockets/initWebSocketServer.ts`: Initializes the WebSocket server. Both the client and the bot will connect to this websocket, allowing this server to receive meeting info from the bot and communicate with the client.
-- `src/recall/createBot.ts`: Handles creating a Recall bot and sends it to a meeting. The bot is configured to send a welcome chat message upon joining a meeting and screenshares this soundboard application.
-- `src/recall/sendChatMessage.ts`: Sends a chat message to the meeting via the bot to trigger a sound.
-- `src/recall/removeBotFromCall.ts`: Removes the Recall bot from the meeting.
+- `src/server/websockets/initWebSocketServer.ts`: Initializes the WebSocket server. Both the client and the bot will connect to this websocket, allowing this server to receive meeting info from the bot and communicate with the client.
+- `src/server/recall/createBot.ts`: Handles creating a Recall bot and sends it to a meeting. The bot is configured to send a welcome chat message upon joining a meeting and screenshares this soundboard application.
+- `src/server/recall/sendChatMessage.ts`: Sends a chat message to the meeting via the bot to trigger a sound.
+- `src/server/recall/removeBotFromCall.ts`: Removes the Recall bot from the meeting.
 
 ## Troubleshooting
 

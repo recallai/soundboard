@@ -1,5 +1,13 @@
+/**
+ * This is the base tsconfig.json for the entire project.
+ * It's used by Next.js for its build process and by IDEs for type-checking and intellisense.
+ *
+ * "noEmit": true is important because Next.js has its own build process.
+ * We only want `tsc` to perform type-checking, not to generate JS files from this config.
+ */
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "target": "ES2017",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,

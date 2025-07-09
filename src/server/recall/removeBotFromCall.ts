@@ -1,24 +1,19 @@
-
+import { getRecallBaseUrl } from './getRecallBaseUrl';
 import { z } from 'zod';
-import { getRecallBaseUrl } from '@/recall/getRecallBaseUrl';
-import { env } from '@/config/env.mjs';
+import { env } from '../../config/env';
+import { RecallBot, RecallBotSchema } from './Bot';
 
-const RemoveBotFromCallInputSchema = z.object({
+const RemoveBotFromCallArgsSchema = z.object({
     botId: z.string(),
 });
-type RemoveBotFromCallInput = z.infer<typeof RemoveBotFromCallInputSchema>;
-
-export const RecallBotResponseSchema = z.object({
-    id: z.string()
-});
-export type RecallBotResponse = z.infer<typeof RecallBotResponseSchema>;
+type RemoveBotFromCallArgs = z.infer<typeof RemoveBotFromCallArgsSchema>;
 
 /**
  * Removes a Recall.ai bot from a call.
  * Bot must be in the meeting
  */
-export const removeBotFromCall = async (args: RemoveBotFromCallInput): Promise<RecallBotResponse> => {
-    const { botId } = RemoveBotFromCallInputSchema.parse(args);
+export const removeBotFromCall = async (args: RemoveBotFromCallArgs): Promise<RecallBot> => {
+    const { botId } = RemoveBotFromCallArgsSchema.parse(args);
 
     console.log(
         `Attempting to remove bot from call: ${botId}`
@@ -39,7 +34,7 @@ export const removeBotFromCall = async (args: RemoveBotFromCallInput): Promise<R
     }
 
     const responseData = await response.json();
-    const botData = RecallBotResponseSchema.parse(responseData);
+    const botData = RecallBotSchema.parse(responseData);
 
     console.log('Successfully removed bot from call with ID:', botData.id);
 

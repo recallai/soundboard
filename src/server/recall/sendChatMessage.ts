@@ -1,26 +1,21 @@
-
+import { getRecallBaseUrl } from './getRecallBaseUrl';
 import { z } from 'zod';
-import { getRecallBaseUrl } from '@/recall/getRecallBaseUrl';
-import { env } from '@/config/env.mjs';
+import { env } from '../../config/env';
+import { RecallBot, RecallBotSchema } from './Bot';
 
-const SendChatMessageInputSchema = z.object({
+const SendChatMessageArgsSchema = z.object({
     botId: z.string(),
     message: z.string(),
     pin: z.boolean().optional(),
 });
-type SendChatMessageInput = z.infer<typeof SendChatMessageInputSchema>;
-
-export const RecallBotResponseSchema = z.object({
-    id: z.string()
-});
-export type RecallBotResponse = z.infer<typeof RecallBotResponseSchema>;
+type SendChatMessageArgs = z.infer<typeof SendChatMessageArgsSchema>;
 
 /**
  * Sends a chat message to a Recall.ai bot.
  * Bot must be in the meeting
  */
-export const sendChatMessage = async (args: SendChatMessageInput): Promise<RecallBotResponse> => {
-    const { botId, message, pin } = SendChatMessageInputSchema.parse(args);
+export const sendChatMessage = async (args: SendChatMessageArgs): Promise<RecallBot> => {
+    const { botId, message, pin } = SendChatMessageArgsSchema.parse(args);
 
     console.log(
         `Attempting to send chat message to bot: ${botId}`
@@ -42,7 +37,7 @@ export const sendChatMessage = async (args: SendChatMessageInput): Promise<Recal
     }
 
     const responseData = await response.json();
-    const botData = RecallBotResponseSchema.parse(responseData);
+    const botData = RecallBotSchema.parse(responseData);
 
     console.log('Successfully sent chat message to bot with ID:', botData.id);
 

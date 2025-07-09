@@ -1,5 +1,5 @@
 import { WebSocket } from 'ws';
-import { verifyBotToken } from '@/utils/jwt';
+import { verifyBotToken } from '../server/utils/jwt';
 
 export type ConnectionType = 'client' | 'bot';
 

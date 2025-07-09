@@ -1,5 +1,5 @@
 import type { NextConfig } from "next";
-import { env } from "./src/config/env.mjs";
+import { env } from "./src/config/env";
 
 const appHost = env.APP_HOST ? new URL(env.APP_HOST).hostname : undefined;
 

@@ -1,0 +1,23 @@
+/**
+ * This tsconfig is used specifically to compile the custom server (`src/server.ts`).
+ * It extends the base `tsconfig.json` to inherit common settings.
+ *
+ * Key differences:
+ * - "noEmit": false: This is set to `false` to actually compile the server code into JavaScript.
+ * - "module": "CommonJS": The server runs in a Node.js environment, which uses CommonJS modules.
+ * - "outDir": "dist": Specifies that the compiled server code should go into the `dist` directory.
+ */
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "outDir": "dist",
+    "noEmit": false,
+    "isolatedModules": false
+  },
+  "include": ["src/server/**/*", "src/config/**/*", "src/server.ts"],
+  "paths": {
+    "@/*": ["./src/*"]
+  }
+} 

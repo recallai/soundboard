@@ -1,8 +1,8 @@
-import jwt from 'jsonwebtoken';
-import { env } from '@/config/env.mjs';
+import { env } from '../../config/env';
+import { sign, verify } from 'jsonwebtoken';
 import { z } from 'zod';
 
-const BotTokenPayloadSchema = z.object({
+export const BotTokenPayloadSchema = z.object({
     clientId: z.string(),
     type: z.literal('bot-auth'),
 });
@@ -19,7 +19,7 @@ export function generateBotToken(clientId: string): string {
         type: 'bot-auth',
     });
 
-    return jwt.sign(payload, env.JWT_SECRET, {
+    return sign(payload, env.JWT_SECRET, {
         expiresIn: '1h',
         issuer: 'recall-soundboard',
         audience: 'recall-bot',
@@ -33,7 +33,7 @@ export function generateBotToken(clientId: string): string {
  */
 export function verifyBotToken(token: string): BotTokenPayload | null {
     try {
-        const decoded = jwt.verify(token, env.JWT_SECRET, {
+        const decoded = verify(token, env.JWT_SECRET, {
             issuer: 'recall-soundboard',
             audience: 'recall-bot',
         });
