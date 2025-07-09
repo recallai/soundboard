@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 interface PlaySoundboardState {
     message: string;
@@ -78,7 +78,7 @@ export function usePlaySoundboard() {
         return ws;
     }, []);
 
-    const attemptReconnect = () => {
+    const attemptReconnect = useCallback(() => {
         setState(prevState => {
             const newAttempts = prevState.reconnectAttempts + 1;
             const maxAttempts = 60; // 1 minute of attempts
@@ -112,7 +112,7 @@ export function usePlaySoundboard() {
                 return prevState;
             });
         }, 1000); // 1 second delay
-    };
+    }, [createWebSocketConnection]);
 
     useEffect(() => {
         try {
