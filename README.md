@@ -23,6 +23,10 @@ Before you begin, ensure you have the following installed:
 
     Start up an ngrok tunnel on port 4000. You will need to add this to the .env in the next step and you will also access the app from the same ngrok URL
 
+    ```bash
+    ngrok http 4000
+    ```
+
 3.  **Create an .env file:**
 
     Copy the `.env.sample` file to a new file named `.env` using the command below:
