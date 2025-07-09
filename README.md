@@ -94,39 +94,35 @@ This project includes a helper script `./scripts.sh` to manage the application w
 | `cleanup` | Clean up Docker resources   |
 | `help`    | Show the help message       |
 
-## How It Works
+## Architecture
 
 This application uses a Recall.ai bot to join meetings and play sounds. The process involves a user-facing control panel, a WebSocket server for real-time communication, and a special soundboard page that the bot screen-shares into the meeting.
 
-<!-- You can add your architecture diagram here -->
+This is what the architecture looks like:
 
-Here’s the step-by-step flow:
+<img src="./readme-assets/architecture-diagram.png" alt="Architecture Diagram" width="800"/>
 
-1.  **Bot Creation**: A user provides a meeting link in the client. This triggers a request to the server to create a new Recall.ai bot using `src/recall/createBot.ts`.
+Here’s the flow after once the bot has joined the call:
 
-2.  **Joining and Screen-sharing**: The bot joins the specified meeting and immediately begins screen-sharing the app's `/soundboard` page. The `clientId` in the URL (`/soundboard?clientId=<bot-id>`) identifies this session. The bot itself also connects to this app's server via websocket
+1. Bot loads the app's front-end in a browser and shares screen into the call
 
-3.  **WebSocket Connection**: The `/soundboard` page, now active inside the meeting via screen-share, connects to the server via websocket (`src/websockets/initWebSocketServer.ts`). It identifies itself using the `clientId` from its URL, allowing the server to route commands to it.
+2. Bot connects to the app's server via websocket, reads chat messages from the meeting, and forwards the chat messages
 
-4.  **Triggering a Sound**: The user can send chat messages in the chat. The bot will forward the participant's chat messages over websocket to this app's server.
+3. The bot will match the chat message to the .mp3 url and send it to the app client via websocket
 
-5.  **Relaying the Command**: The server receives the request. It looks up the correct WebSocket connection using the `clientId` and sends a message containing the URL of the sound file to play to the client.
+4. The app's front-end will play the media in the browser tab, which then gets streamed back into the call
 
-6.  **Playing Audio**: The `/soundboard` page receives the message via its WebSocket connection and plays the audio file. Because the bot is sharing its audio, everyone in the meeting hears the sound.
-
-7.  **Stopping the Bot**: The user can remove the bot from the call by sending `!kick` in-chat, which calls `src/recall/removeBotFromCall.ts`.
-
-## Important Files
+### Important Files
 
 A quick guide to the key files in this project.
 
 `src/server.ts` is the main entry point that starts the Next.js application and the WebSocket server.
 
-### Client
+#### Client
 
 - `src/app/(client)/_hooks/use-play-soundboard.ts`: React hook to manage the client's WebSocket connection and play sounds.
 
-### Server
+#### Server
 
 - `src/websockets/initWebSocketServer.ts`: Initializes the WebSocket server. Both the client and the bot will connect to this websocket, allowing this server to receive meeting info from the bot and communicate with the client.
 - `src/recall/createBot.ts`: Handles creating a Recall bot and sends it to a meeting. The bot is configured to send a welcome chat message upon joining a meeting and screenshares this soundboard application.
