@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 interface PlaySoundboardState {
     message: string;
@@ -20,7 +20,7 @@ export function usePlaySoundboard() {
         reconnectAttempts: 0
     });
 
-    const createWebSocketConnection = () => {
+    const createWebSocketConnection = useCallback(() => {
         const clientId = new URL(window.location.href).searchParams.get('clientId');
         const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
         const ws = new WebSocket(`${protocol}//${window.location.host}/ws/client?clientId=${clientId}`);
@@ -76,7 +76,7 @@ export function usePlaySoundboard() {
         };
 
         return ws;
-    };
+    }, []);
 
     const attemptReconnect = () => {
         setState(prevState => {
@@ -134,7 +134,7 @@ export function usePlaySoundboard() {
                 console.error({ message: 'Bot failed to connect to server', error: error.message });
             }
         }
-    }, []);
+    }, [createWebSocketConnection]);
 
     return { ...state, socket };
 } 

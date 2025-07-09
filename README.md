@@ -36,6 +36,7 @@ Before you begin, ensure you have the following installed:
     ```
 
     You will need to then fill the missing variables in the .env
+    Also set the ngrok url from the previous step in the APP_HOST
 
 4.  **Run the application:**
 

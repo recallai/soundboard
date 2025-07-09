@@ -45,7 +45,7 @@ export function verifyBotToken(token: string): BotTokenPayload | null {
         }
 
         return payload;
-    } catch (error) {
+    } catch {
         // Token is invalid, expired, or malformed
         return null;
     }
