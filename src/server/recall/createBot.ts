@@ -92,6 +92,15 @@ If you don't want me in this meeting, you can also ask me to leave with !kick`;
             const data = await response.json();
             throw new Error(`${getRecallApiError(data)}`);
         }
+        case 429: {
+            const data = await response.json();
+            const msg = getRecallApiError(data)
+            if (msg.includes('concurrent adhoc bots allowed')) {
+                throw new Error("Too many soundboard bots are active. Please try again in 30 minutes")
+            } else {
+                throw new Error('Too many requests to deploy soundboard bots. Please try again in a 1 minute')
+            }
+        }
         default: {
             break;
         }
