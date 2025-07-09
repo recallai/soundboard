@@ -4,10 +4,11 @@ export const getRecallApiError = (data: unknown): string => {
     }
 
     if ('detail' in data) {
-        return getSanitizedErrorMessage(data);
+        return getSanitizedErrorMessage(data?.detail);
     } else if ('non_field_errors' in data) {
         return getSanitizedErrorMessage(data?.non_field_errors);
     }
+
     if (typeof data === 'string') {
         return data;
     } else {
