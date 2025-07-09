@@ -14,26 +14,26 @@ const Page: React.FC = () => {
       <div className="w-full max-w-[500px]">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl text-center font-bold text-gray-900 dark:text-white mb-4">
+          <h1 className="text-5xl text-center font-bold text-gray-900 dark:text-white mb-4">
             Soundboard
           </h1>
           <div className="space-y-3">
-            <p className="text-gray-600 dark:text-gray-300 text-center">
-              Send commands in chat to control the bot and play sounds
+            <p className="text-xl text-gray-600 dark:text-gray-300 text-center">
+              Send commands in-chat to play viral sounds
             </p>
             <div className="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-lg p-4 border border-gray-200/50 dark:border-gray-600/50">
               {/* Control Commands */}
-              <div className="grid grid-cols-2 gap-2 text-sm mb-4">
+              <div className="grid grid-cols-2 gap-2 text-lg mb-4">
                 <div className="flex items-center gap-2">
-                  <code className="bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded text-xs font-mono">
+                  <code className="bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded text-base font-mono">
                     !list
                   </code>
                   <span className="text-gray-600 dark:text-gray-400">
-                    Show list of sounds
+                    List sounds
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <code className="bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded text-xs font-mono">
+                  <code className="bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded text-base font-mono">
                     !kick
                   </code>
                   <span className="text-gray-600 dark:text-gray-400">
@@ -47,14 +47,14 @@ const Page: React.FC = () => {
 
               {/* Sound Commands */}
               <div className="text-center">
-                <p className="text-xs text-gray-600 dark:text-gray-400 mb-3">
+                <p className="text-base text-gray-600 dark:text-gray-400 mb-3">
                   Available sounds:
                 </p>
                 <div className="flex flex-wrap justify-center gap-2">
                   {soundCommands.map((command) => (
                     <code
                       key={command}
-                      className="bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded text-xs font-mono"
+                      className="bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded text-base font-mono"
                     >
                       {command}
                     </code>
@@ -72,14 +72,14 @@ const Page: React.FC = () => {
             <div
               className={`w-3 h-3 rounded-full ${
                 isConnected
-                  ? "bg-green-500 animate-pulse"
+                  ? "bg-green-500"
                   : isReconnecting
-                  ? "bg-yellow-500 animate-pulse"
+                  ? "bg-yellow-500"
                   : "bg-red-500"
               }`}
             ></div>
             <span
-              className={`text-sm font-medium ${
+              className={`text-lg font-medium ${
                 isConnected
                   ? "text-green-700 dark:text-green-400"
                   : isReconnecting
@@ -97,9 +97,7 @@ const Page: React.FC = () => {
 
           {/* Recording Disclaimer */}
           <div className="text-center">
-            <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
-              🔒 This bot does not record the call.
-              <br />
+            <p className="text-base text-gray-500 dark:text-gray-400 leading-relaxed">
               It only joins to play sounds when requested.
             </p>
           </div>
