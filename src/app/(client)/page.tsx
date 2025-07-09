@@ -24,31 +24,22 @@ const Page: React.FC = () => {
               </p>
             </div>
 
-            <div className="w-full max-w-2xl flex flex-col items-center gap-4">
+            <div className="w-full max-w-2xl flex flex-col items-center gap-6">
               {/* Form */}
               <div className="min-w-[400px]">
                 <CreateBotForm />
               </div>
 
               {/* GitHub CTA */}
-              <Button
-                asChild
-                size="lg"
-                variant="outline"
-                className="group bg-white hover:bg-gray-50 border-gray-200 text-gray-900 font-medium px-4 sm:px-6 py-3 h-auto shadow-sm hover:shadow-md transition-all duration-200"
+              <a
+                href={GITHUB_URL}
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center gap-2 sm:gap-3"
               >
-                <a
-                  href={GITHUB_URL}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex items-center gap-2 sm:gap-3"
-                >
-                  <FaGithub />
-                  <span className="text-sm sm:text-base">
-                    View Source code on GitHub
-                  </span>
-                </a>
-              </Button>
+                <FaGithub />
+                <span className="text-sm">View Source code on GitHub</span>
+              </a>
             </div>
 
             {/* Powered by Recall.ai */}
