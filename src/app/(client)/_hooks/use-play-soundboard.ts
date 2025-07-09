@@ -76,6 +76,7 @@ export function usePlaySoundboard() {
         };
 
         return ws;
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const attemptReconnect = useCallback(() => {
