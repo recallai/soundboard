@@ -1,7 +1,7 @@
 "use client";
 
 import { usePlaySoundboard } from "@/app/(client)/_hooks/use-play-soundboard";
-import { PoweredByRecallAi } from "@/app/(client)/_components/modules/powered-by-recall-ai";
+import { Signature } from "@/app/(client)/_components/modules/signature";
 import { SoundCommands } from "@/server/utils/SoundCommands";
 
 const Page: React.FC = () => {
@@ -107,7 +107,7 @@ const Page: React.FC = () => {
 
         {/* Powered by Recall.ai */}
         <div className="mt-6">
-          <PoweredByRecallAi />
+          <Signature />
         </div>
       </div>
     </div>

@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import RecallLogo from "@/app/(client)/_assets/recall-logo.svg";
+import { DOCS_URL, RECALL_URL, SIGNUP_URL } from "@/lib/urls";
 
 export function Navbar() {
   return (
@@ -9,7 +10,7 @@ export function Navbar() {
       <div className="max-w-6xl mx-auto px-4 py-4">
         <div className="flex justify-between items-center">
           <a
-            href="https://recall.ai"
+            href={RECALL_URL}
             target="_blank"
             rel="noreferrer"
             className="flex items-center hover:opacity-80 transition-opacity"
@@ -24,7 +25,7 @@ export function Navbar() {
           </a>
           <div className="flex items-center gap-8">
             <a
-              href="https://docs.recall.ai/docs"
+              href={DOCS_URL}
               target="_blank"
               rel="noreferrer"
               className="group flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
@@ -32,7 +33,7 @@ export function Navbar() {
               <span>Docs</span>
             </a>
             <a
-              href="https://recall.ai"
+              href={SIGNUP_URL}
               target="_blank"
               rel="noreferrer"
               className="group flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"

@@ -1,6 +1,6 @@
 # Recall.ai Soundboard
 
-This is a soundboard sample app that integrates with [Recall.ai](https://recall.ai) to allow playing sounds in online meetings. It uses a Recall.ai bot to join meetings and plays sounds based on commands sent through a web interface.
+This is a soundboard sample app that integrates with [Recall.ai](https://www.recall.ai) to allow playing sounds in online meetings. It uses a Recall.ai bot to join meetings and plays sounds based on commands sent through a web interface.
 
 ## Prerequisites
 

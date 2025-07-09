@@ -2,13 +2,14 @@
 
 import Image from "next/image";
 import RecallLogo from "@/app/(client)/_assets/recall-logo.svg";
+import { RECALL_URL } from "@/lib/urls";
 
-export function PoweredByRecallAi() {
+export function Signature() {
   return (
     <div className="flex items-center justify-center gap-1.5 text-sm text-muted-foreground">
-      <span>Powered by</span>
+      <span>Built with</span>
       <a
-        href="https://www.recall.ai"
+        href={RECALL_URL}
         target="_blank"
         rel="noreferrer"
         className="hover:opacity-80 transition-opacity"
