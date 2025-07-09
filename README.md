@@ -1,4 +1,4 @@
-# Recall Soundboard
+# Recall.ai Soundboard
 
 This is a soundboard sample app that integrates with [Recall.ai](https://recall.ai) to allow playing sounds in online meetings. It uses a Recall.ai bot to join meetings and plays sounds based on commands sent through a web interface.
 
@@ -130,9 +130,9 @@ A quick guide to the key files in this project.
 #### Server
 
 - `src/server/websockets/initWebSocketServer.ts`: Initializes the WebSocket server. Both the client and the bot will connect to this websocket, allowing this server to receive meeting info from the bot and communicate with the client.
-- `src/server/recall/createBot.ts`: Handles creating a Recall bot and sends it to a meeting. The bot is configured to send a welcome chat message upon joining a meeting and screenshares this soundboard application.
+- `src/server/recall/createBot.ts`: Handles creating a Recall.ai bot and sends it to a meeting. The bot is configured to send a welcome chat message upon joining a meeting and screenshares this soundboard application.
 - `src/server/recall/sendChatMessage.ts`: Sends a chat message to the meeting via the bot to trigger a sound.
-- `src/server/recall/removeBotFromCall.ts`: Removes the Recall bot from the meeting.
+- `src/server/recall/removeBotFromCall.ts`: Removes the Recall.ai bot from the meeting.
 
 ## Troubleshooting
 

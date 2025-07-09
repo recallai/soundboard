@@ -3,12 +3,12 @@
 import Image from "next/image";
 import RecallLogo from "@/app/(client)/_assets/recall-logo.svg";
 
-export function PoweredByRecall() {
+export function PoweredByRecallAi() {
   return (
     <div className="flex items-center justify-center gap-1.5 text-sm text-muted-foreground">
       <span>Powered by</span>
       <a
-        href="https://recall.ai"
+        href="https://www.recall.ai"
         target="_blank"
         rel="noreferrer"
         className="hover:opacity-80 transition-opacity"

@@ -1,6 +1,6 @@
 import { CreateBotForm } from "@/app/(client)/_components/forms/create-bot-form";
 import { Navbar } from "@/app/(client)/_components/modules/navbar";
-import { PoweredByRecall } from "@/app/(client)/_components/modules/powered-by-recall";
+import { PoweredByRecallAi } from "@/app/(client)/_components/modules/powered-by-recall-ai";
 import { Badge } from "@/app/(client)/_components/ui/badge";
 import { Button } from "@/app/(client)/_components/ui/button";
 import { Github, Star, GitFork } from "lucide-react";
@@ -75,7 +75,7 @@ const Page: React.FC = () => {
 
             {/* Powered by Recall.ai */}
             <div className="mt-12 pt-8 border-t border-muted">
-              <PoweredByRecall />
+              <PoweredByRecallAi />
             </div>
           </div>
         </div>

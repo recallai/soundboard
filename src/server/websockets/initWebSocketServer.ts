@@ -97,7 +97,7 @@ export function initWebSocketServer(server: Server) {
 }
 
 /**
- * Manages a Recall bot connection. 
+ * Manages a Recall.ai bot connection. 
  * It listens for chat messages sent in chat, then sends the resulting sound URL to the specified client.
  * @param ws The WebSocket instance for the bot.
  * @param clientId The ID of the client that this bot is associated with.
