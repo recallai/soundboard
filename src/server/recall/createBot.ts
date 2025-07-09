@@ -5,6 +5,7 @@ import { randomUUID } from 'crypto';
 import { env } from '../../config/env';
 import { generateBotToken } from '../utils/jwt';
 import { RecallBot, RecallBotSchema } from './Bot';
+import { getRecallApiError } from './getRecallApiError';
 
 const CreateBotArgsSchema = z.object({
     meetingUrl: z.string().url(),
@@ -77,10 +78,23 @@ export const createBot = async (args: CreateBotArgs): Promise<RecallBot> => {
         })
     });
 
+    switch (response.status) {
+        case 507: {
+            throw new Error("Bot pool is full. Please try again in a few seconds.");
+        }
+        case 400: {
+            const data = await response.json();
+            throw new Error(`${getRecallApiError(data)}`);
+        }
+        default: {
+            break;
+        }
+    }
+
+
     if (!response.ok) {
         throw new Error(`HTTP ${response.status}: ${await response.text()}`);
     }
-
 
     const responseData = await response.json();
     const botData = RecallBotSchema.parse(responseData);

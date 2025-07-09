@@ -52,9 +52,8 @@ export function CreateBotForm() {
       });
 
       if (!res.ok) {
-        throw new Error(
-          `Failed to create bot: ${res.status} ${await res.text()}`
-        );
+        const data = await res.json();
+        throw new Error(`${data?.message}`);
       }
 
       // Wait + randomness for UX

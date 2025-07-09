@@ -1,6 +1,7 @@
 import { NextRequest } from "next/server";
 import { createBot } from "@/server/recall/createBot";
 import { z } from "zod";
+import { verifyBotCanBeCreated } from "@/server/recall/verifyBotCanBeCreated";
 
 export const POST = async (req: NextRequest) => {
     try {
@@ -8,6 +9,8 @@ export const POST = async (req: NextRequest) => {
         const { meetingUrl } = z
             .object({ meetingUrl: z.string().url() })
             .parse(body);
+
+        await verifyBotCanBeCreated(meetingUrl);
 
         const botData = await createBot({ meetingUrl });
 
@@ -25,7 +28,7 @@ export const POST = async (req: NextRequest) => {
                 {
                     success: false,
                     error: 'Invalid request body',
-                    details: error.errors
+                    details: error
                 },
                 { status: 400 }
             );
@@ -37,7 +40,7 @@ export const POST = async (req: NextRequest) => {
                 error: 'Failed to create bot',
                 message: error instanceof Error ? error.message : 'Unknown error'
             },
-            { status: 500 }
+            { status: 400 }
         );
     }
 };
