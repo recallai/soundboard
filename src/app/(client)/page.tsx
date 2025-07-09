@@ -1,7 +1,6 @@
 import { CreateBotForm } from "@/app/(client)/_components/forms/create-bot-form";
 import { Navbar } from "@/app/(client)/_components/modules/navbar";
 import { Signature } from "@/app/(client)/_components/modules/signature";
-import { Button } from "@/app/(client)/_components/ui/button";
 import { GITHUB_URL } from "@/lib/urls";
 import { FaGithub } from "react-icons/fa";
 
