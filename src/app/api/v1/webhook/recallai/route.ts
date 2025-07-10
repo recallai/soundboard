@@ -1,8 +1,5 @@
 import { NextRequest } from "next/server";
-import { createBot } from "@/server/recall/createBot";
 import { z } from "zod";
-import { verifyBotCanBeCreated } from "@/server/recall/verifyBotCanBeCreated";
-import { sendSlackBotJoinedAlert } from "@/server/utils/sendSlackAlert";
 import { retrieveBot } from "@/server/recall/retrieveBot";
 
 const StatusChangeWebhookEventSchema = z.object({
@@ -38,7 +35,7 @@ export const POST = async (req: NextRequest) => {
         const body = await req.json();
 
         if (isStatusChangeWebhookEvent(body)) {
-            const { bot: { id: botId } } = body.data;
+            const { event, data: { bot: { id: botId } } } = StatusChangeWebhookEventSchema.parse(body);
             const bot = await retrieveBot({ botId });
             if (!bot) {
                 console.error('Bot not found', { botId });
@@ -46,13 +43,13 @@ export const POST = async (req: NextRequest) => {
                 return returnSuccess({ message: `Bot not found: ${botId}`, status: 200 });
             }
 
-            switch (body.event) {
+            switch (event) {
                 case 'bot.in_call_recording': {
                     console.log(`bot ${botId} is in call recording`);
                     break;
                 }
                 default: {
-                    console.log(`unhandled status change event '${body.event}' for bot: ${botId}`);
+                    console.log(`unhandled status change event '${event}' for bot: ${botId}`);
                 }
             }
         } else {
