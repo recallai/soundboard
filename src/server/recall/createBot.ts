@@ -30,7 +30,7 @@ export const createBot = async (args: CreateBotArgs): Promise<RecallBot> => {
     const appUrl = getAppUrl();
     const createBotUrl = `${getRecallBaseUrl().toString()}api/v1/bot`;
     const clientWebpageUrl = `${appUrl.toString()}soundboard?clientId=${clientId}`;
-    const realtimeEventsUrl = `wss://${appUrl.host}/ws/bot?clientId=${clientId}&token=${jwtToken}`;
+    const websocketEndpoint = `wss://${appUrl.host}/ws/bot?clientId=${clientId}&token=${jwtToken}`;
 
     // This is the message that will be sent to the meeting chat when the bot joins
     const onJoinChatMessage = `Hello, someone requested me to join this meeting! I'm a soundboard bot built with ${RECALL_URL}
@@ -53,9 +53,9 @@ If you don't want me in this meeting, you can also ask me to leave with !kick`;
                     // This is the websocket endpoint that the bot will receive events from the bot
                     {
                         type: "websocket",
-                        url: realtimeEventsUrl,
+                        url: websocketEndpoint,
                         events: ["participant_events.chat_message"]
-                    }
+                    },
                 ],
                 retention: {
                     type: "timed",
