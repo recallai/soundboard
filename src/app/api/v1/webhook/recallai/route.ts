@@ -1,6 +1,5 @@
 import { NextRequest } from "next/server";
 import { z } from "zod";
-import { retrieveBot } from "@/server/recall/retrieveBot";
 
 const StatusChangeWebhookEventSchema = z.object({
     event: z.string(),
