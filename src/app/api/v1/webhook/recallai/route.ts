@@ -7,6 +7,7 @@ const StatusChangeWebhookEventSchema = z.object({
     data: z.object({
         bot: z.object({
             id: z.string(),
+            metadata: z.record(z.string(), z.any()),
         }),
     }),
 })
@@ -35,17 +36,11 @@ export const POST = async (req: NextRequest) => {
         const body = await req.json();
 
         if (isStatusChangeWebhookEvent(body)) {
-            const { event, data: { bot: { id: botId } } } = StatusChangeWebhookEventSchema.parse(body);
-            const bot = await retrieveBot({ botId });
-            if (!bot) {
-                console.error('Bot not found', { botId });
-                // Return success to avoid retries
-                return returnSuccess({ message: `Bot not found: ${botId}`, status: 200 });
-            }
+            const { event, data: { bot: { id: botId, metadata } } } = StatusChangeWebhookEventSchema.parse(body);
 
             switch (event) {
                 case 'bot.in_call_recording': {
-                    console.log(`bot ${botId} is in call recording`);
+                    console.log(`bot ${botId} is in call recording for meeting: ${metadata.meetingUrl}`);
                     break;
                 }
                 default: {

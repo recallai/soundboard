@@ -81,6 +81,9 @@ If you don't want me in this meeting, you can also ask me to leave with !kick`;
                 "zoom": "web_4_core",
                 "google_meet": "web_4_core",
                 "microsoft_teams": "web_4_core",
+            },
+            metadata: {
+                meetingUrl,
             }
         })
     });
