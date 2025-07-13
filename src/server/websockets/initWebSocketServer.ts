@@ -144,7 +144,7 @@ function handleBotConnection(ws: WebSocket, clientId: string) {
 
             // Check if the command starts with our trigger character '!'
             switch (chatMessage) {
-                case '!list': {
+                case '!list-sounds': {
                     await sendChatMessage({
                         botId,
                         message: `Try using any of these commands: ${Object.keys(SoundCommands).join(', ')}`,

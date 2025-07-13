@@ -33,11 +33,12 @@ export const createBot = async (args: CreateBotArgs): Promise<RecallBot> => {
     const websocketEndpoint = `wss://${appUrl.host}/ws/bot?clientId=${clientId}&token=${jwtToken}`;
 
     // This is the message that will be sent to the meeting chat when the bot joins
-    const onJoinChatMessage = `Hello, someone requested me to join this meeting! I'm a soundboard bot built with ${RECALL_URL}
+    const onJoinChatMessage = `Hello, I'm a soundboard bot built with ${RECALL_URL}.
 
-Once connected, you can play sounds by typing in the chat: !<sound name> (i.e. !hello) or see the list of sounds by typing !list
+Once connected, type any of these in chat to play a sound: !hello, !rizz, !boom, !huh, !outro, !wow.
 
-If you don't want me in this meeting, you can also ask me to leave with !kick`;
+If you don't want me in this meeting, you can also ask me to leave with !kick.
+`;
 
     const response = await fetch(createBotUrl, {
         method: 'POST',
