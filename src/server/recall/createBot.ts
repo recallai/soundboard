@@ -35,7 +35,13 @@ export const createBot = async (args: CreateBotArgs): Promise<RecallBot> => {
     // This is the message that will be sent to the meeting chat when the bot joins
     const onJoinChatMessage = `Hello, I'm a soundboard bot built with ${RECALL_URL}.
 
-Once connected, type any of these in chat to play a sound: !hello, !rizz, !boom, !huh, !outro, !wow.
+Once connected, type any of these in chat to play a sound: 
+- !hello
+- !rizz
+- !boom
+- !huh
+- !outro
+- !wow
 
 If you don't want me in this meeting, you can also ask me to leave with !kick.
 `;
